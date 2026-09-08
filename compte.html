@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mon compte — SNE</title>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #1f2937;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    padding: 18px 6%;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.logo span {
+    color: #0b5ed7;
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.back-button {
+    text-decoration: none;
+    color: white;
+    background: #0b5ed7;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+}
+
+.account-box {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    border: 1px solid #e1e7ee;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 15px 45px rgba(11,94,215,.10);
+}
+
+h1 {
+    text-align: center;
+    color: #0b5ed7;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #667085;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+#loginSection {
+    display: block;
+}
+
+#profileSection {
+    display: none;
+}
+
+.profile {
+    text-align: center;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #0b5ed7;
+    margin-bottom: 15px;
+}
+
+.photo-button {
+    display: inline-block;
+    background: #18a957;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.photo-button:hover {
+    background: #0b5ed7;
+}
+
+.field {
+    margin-bottom: 20px;
+}
+
+.field label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.field input {
+    width: 100%;
+    height: 50px;
+    border: 2px solid #dce3eb;
+    border-radius: 11px;
+    padding: 0 15px;
+    font-size: 16px;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: #0b5ed7;
+}
+
+.email {
+    background: #f5f7fa;
+    padding: 14px;
+    border-radius: 10px;
+    color: #667085;
+    word-break: break-word;
+}
+
+.save-button {
+    width: 100%;
+    height: 52px;
+    border: none;
+    border-radius: 11px;
+    background: #0b5ed7;
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background: #18a957;
+}
+
+.logout-button {
+    width: 100%;
+    height: 48px;
+    margin-top: 12px;
+    border: 2px solid #dce3eb;
+    border-radius: 11px;
+    background: white;
+    color: #1f2937;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    border-color: #0b5ed7;
+}
+
+.message {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.success {
+    color: #18a957;
+    font-weight: 700;
+}
+
+.error {
+    color: #d92d20;
+    font-weight: 700;
+}
+
+#googleButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+footer {
+    background: #0b5ed7;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+@media(max-width:600px) {
+    .account-box {
+        padding: 28px 20px;
+    }
+
+    header {
+        padding: 15px 4%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="logo">
+    <img src="sne.jpeg" alt="SNE">
+    <span>SNE</span>
+</a>
+
+<a href="services.html" class="back-button">
+    Services
+</a>
+
+</header>
+
+
+<main>
+
+<section class="account-box">
+
+    <!-- CONNEXION -->
+
+    <div id="loginSection">
+
+        <h1>Créer mon compte</h1>
+
+        <p class="subtitle">
+            Connectez-vous avec votre compte Google pour créer votre compte SNE.
+        </p>
+
+        <div class="field">
+
+            <label for="loginName">
+                Votre nom
+            </label>
+
+            <input
+                id="loginName"
+                type="text"
+                placeholder="Entrez votre nom"
+                autocomplete="name"
+            >
+
+        </div>
+
+        <div id="googleButton"></div>
+
+        <p id="loginMessage" class="message"></p>
+
+    </div>
+
+
+    <!-- PROFIL -->
+
+    <div id="profileSection">
+
+        <h1>Mon compte</h1>
+
+        <p class="subtitle">
+            Gérez votre profil SNE.
+        </p>
+
+
+        <div class="profile">
+
+            <img
+                id="profilePhoto"
+                class="profile-photo"
+                src=""
+                alt="Photo de profil"
+            >
+
+            <br>
+
+            <label
+                for="photoInput"
+                class="photo-button"
+            >
+                Modifier la photo
+            </label>
+
+            <input
+                id="photoInput"
+                type="file"
+                accept="image/*"
+                style="display:none"
+                onchange="changePhoto(event)"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="profileName">
+                Nom
+            </label>
+
+            <input
+                id="profileName"
+                type="text"
+                placeholder="Votre nom"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Email Google
+            </label>
+
+            <div
+                id="profileEmail"
+                class="email">
+            </div>
+
+        </div>
+
+
+        <button
+            class="save-button"
+            onclick="saveProfile()">
+
+            Enregistrer les modifications
+
+        </button>
+
+
+        <button
+            class="logout-button"
+            onclick="logout()">
+
+            Se déconnecter
+
+        </button>
+
+
+        <p
+            id="profileMessage"
+            class="message">
+        </p>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+    <strong>SNE</strong> — Service de nettoyage professionnel
+</footer>
+
+
+<script>
+
+const GOOGLE_CLIENT_ID =
+"835182315166-8crcjoio0r4duhstmaacknk7kh2tash3.apps.googleusercontent.com";
+
+const API_URL =
+"http://localhost:3000";
+
+
+/*
+========================================
+ GOOGLE
+========================================
+*/
+
+function initializeGoogle() {
+
+    if (
+        !window.google ||
+        !window.google.accounts ||
+        !window.google.accounts.id
+    ) {
+
+        setTimeout(
+            initializeGoogle,
+            500
+        );
+
+        return;
+    }
+
+
+    google.accounts.id.initialize({
+
+        client_id:
+            GOOGLE_CLIENT_ID,
+
+        callback:
+            handleGoogleResponse,
+
+        auto_select:
+            false,
+
+        cancel_on_tap_outside:
+            true
+
+    });
+
+
+    google.accounts.id.renderButton(
+
+        document.getElementById(
+            "googleButton"
+        ),
+
+        {
+            theme: "outline",
+            size: "large",
+            width: 390,
+            text: "continue_with",
+            shape: "rectangular"
+        }
+
+    );
+
+}
+
+
+/*
+========================================
+ CONNEXION GOOGLE
+========================================
+*/
+
+async function handleGoogleResponse(response) {
+
+    const name =
+        document.getElementById(
+            "loginName"
+        ).value.trim();
+
+
+    const message =
+        document.getElementById(
+            "loginMessage"
+        );
+
+
+    if (!name) {
+
+        message.textContent =
+            "Veuillez entrer votre nom avant de continuer.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    message.textContent =
+        "Connexion à Google...";
+
+
+    try {
+
+        const result =
+            await fetch(
+                API_URL +
+                "/api/auth/google",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        credential:
+                            response.credential,
+
+                        name:
+                            name
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await result.json();
+
+
+        if (!result.ok ||
+            !data.success) {
+
+            throw new Error(
+                data.message ||
+                "Connexion impossible"
+            );
+
+        }
+
+
+        localStorage.setItem(
+            "sne_user",
+            JSON.stringify(
+                data.user
+            )
+        );
+
+
+        showProfile(
+            data.user
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+            "Erreur : " +
+            error.message;
+
+        message.className =
+            "message error";
+
+    }
+
+}
+
+
+/*
+========================================
+ AFFICHER PROFIL
+========================================
+*/
+
+function showProfile(user) {
+
+    document.getElementById(
+        "loginSection"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "profileSection"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "profileName"
+    ).value =
+        user.name || "";
+
+
+    document.getElementById(
+        "profileEmail"
+    ).textContent =
+        user.email || "";
+
+
+    document.getElementById(
+        "profilePhoto"
+    ).src =
+        user.picture ||
+        "sne.jpeg";
+
+}
+
+
+/*
+========================================
+ MODIFIER PHOTO
+========================================
+*/
+
+function changePhoto(event) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+
+    if (!file.type.startsWith("image/")) {
+
+        alert(
+            "Veuillez choisir une image."
+        );
+
+        return;
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e) {
+
+            const image =
+                e.target.result;
+
+
+            document.getElementById(
+                "profilePhoto"
+            ).src =
+                image;
+
+
+            const user =
+                JSON.parse(
+                    localStorage.getItem(
+                        "sne_user"
+                    )
+                );
+
+
+            user.picture =
+                image;
+
+
+            localStorage.setItem(
+                "sne_user",
+                JSON.stringify(user)
+            );
+
+
+            document.getElementById(
+                "profileMessage"
+            ).textContent =
+                "Photo modifiée. Cliquez sur Enregistrer les modifications.";
+
+
+            document.getElementById(
+                "profileMessage"
+            ).className =
+                "message success";
+
+        };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/*
+========================================
+ SAUVEGARDER NOM + PHOTO
+========================================
+*/
+
+async function saveProfile() {
+
+    const user =
+        JSON.parse(
+            localStorage.getItem(
+                "sne_user"
+            )
+        );
+
+
+    if (!user) {
+
+        return;
+    }
+
+
+    const name =
+        document.getElementById(
+            "profileName"
+        ).value.trim();
+
+
+    const picture =
+        document.getElementById(
+            "profilePhoto"
+        ).src;
+
+
+    const message =
+        document.getElementById(
+            "profileMessage"
+        );
+
+
+    if (!name) {
+
+        message.textContent =
+            "Le nom ne peut pas être vide.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    message.textContent =
+        "Enregistrement...";
+
+
+    try {
+
+        const result =
+            await fetch(
+                API_URL +
+                "/api/account/" +
+                user.googleId,
+                {
+
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        name:
+                            name,
+
+                        picture:
+                            picture
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await result.json();
+
+
+        if (!result.ok ||
+            !data.success) {
+
+            throw new Error(
+                data.message ||
+                "Impossible d'enregistrer"
+            );
+
+        }
+
+
+        localStorage.setItem(
+            "sne_user",
+            JSON.stringify(
+                data.user
+            )
+        );
+
+
+        showProfile(
+            data.user
+        );
+
+
+        message.textContent =
+            "Modifications enregistrées avec succès.";
+
+        message.className =
+            "message success";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+            error.message;
+
+        message.className =
+            "message error";
+
+    }
+
+}
+
+
+/*
+========================================
+ DÉCONNEXION
+========================================
+*/
+
+function logout() {
+
+    localStorage.removeItem(
+        "sne_user"
+    );
+
+    location.reload();
+
+}
+
+
+/*
+========================================
+ DÉMARRAGE
+========================================
+*/
+
+window.addEventListener(
+    "load",
+    function() {
+
+        initializeGoogle();
+
+
+        const saved =
+            localStorage.getItem(
+                "sne_user"
+            );
+
+
+        if (saved) {
+
+            try {
+
+                const user =
+                    JSON.parse(saved);
+
+                showProfile(user);
+
+            } catch {
+
+                localStorage.removeItem(
+                    "sne_user"
+                );
+
+            }
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#155EEF">
+
+    <title>SNE — Nettoyage professionnel</title>
+
+    <link rel="stylesheet" href="style.css">
+
+<style>
+.hero-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #0b5ed7;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 15px 28px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    border: 2px solid #0b5ed7;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 8px 20px rgba(11, 94, 215, 0.20);
+}
+
+.hero-button:hover {
+    background: #18a957;
+    border-color: #18a957;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(24, 169, 87, 0.25);
+}
+</style>
+
+</head>
+
+<body>
+
+    <main class="welcome">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <header class="topbar">
+
+            <div class="brand">
+
+                <div class="brand-logo">
+                    SNE
+                </div>
+
+                <div class="brand-info">
+                    <strong>SNE</strong>
+                    <span>NETTOYAGE & ENTRETIEN</span>
+                </div>
+
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                SERVICE PROFESSIONNEL
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             CONTENU PRINCIPAL
+        ========================== -->
+
+        <section class="hero">
+
+            <!-- TEXTE -->
+
+            <div class="hero-content">
+
+                <div class="small-title">
+                    <span></span>
+                    PROPRETÉ • QUALITÉ • CONFIANCE
+                </div>
+
+                <h1>
+                    Bienvenue chez
+                    <strong>SNE</strong>
+                </h1>
+
+                <h2>
+                    Votre espace mérite
+                    <span>le meilleur nettoyage.</span>
+                </h2>
+
+                <p>
+                    SNE vous accompagne avec des services de
+                    nettoyage et d'entretien professionnels pour
+                    vos maisons, bureaux et espaces professionnels.
+                </p>
+            <a href="services.html" class="hero-button">
+                Découvrir nos services
+            </a>
+
+
+                <div class="buttons">
+
+                    
+
+                </div>
+
+                <div class="qualities">
+
+                    <div>
+                        <b>✓</b>
+                        Nettoyage professionnel
+                    </div>
+
+                    <div>
+                        <b>✓</b>
+                        Travail soigné
+                    </div>
+
+                    <div>
+                        <b>✓</b>
+                        Service fiable
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 PHOTOS
+            ========================== -->
+
+            <div class="photo-area">
+
+                <!-- GRANDE PHOTO -->
+
+                <div class="main-photo">
+
+                    <img
+                        src="sne.jpeg"
+                        alt="Service de nettoyage SNE"
+                        onerror="this.src='images/sne.jpeg'"
+                    >
+
+                    <div class="photo-label">
+
+                        <div class="label-icon">
+                            ✓
+                        </div>
+
+                        <div>
+                            <strong>SNE</strong>
+                            <span>Nettoyage professionnel</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PETITES PHOTOS -->
+
+                <div class="small-photos">
+
+                    <div class="small-photo">
+
+                        <img
+                            src="sne bureau.jpeg"
+                            alt="Nettoyage de bureau"
+                            onerror="this.src='images/sne.jpeg'"
+                        >
+
+                        <div>
+                            <strong>Bureaux</strong>
+                            <span>Entretien</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="small-photo">
+
+                        <img
+                            src="sne maison.jpeg"
+                            alt="Nettoyage de maison"
+                            onerror="this.src='images/sne.jpeg'"
+                        >
+
+                        <div>
+                            <strong>Maisons</strong>
+                            <span>Propreté</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="small-photo">
+
+                        <img
+                            src="sne vitre.jpeg"
+                            alt="Nettoyage des vitres"
+                            onerror="this.src='images/sne.jpeg'"
+                        >
+
+                        <div>
+                            <strong>Vitres</strong>
+                            <span>Brillance</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             BAS
+        ========================== -->
+
+        <footer>
+
+            <span>© 2026 SNE</span>
+
+            <div class="footer-line"></div>
+
+            <span>NETTOYAGE & ENTRETIEN</span>
+
+        </footer>
+
+    </main>
+
+
+    <script>
+
+        function discoverServices() {
+
+            document.body.classList.add("page-exit");
+
+            setTimeout(() => {
+
+                window.location.href = "services.html";
+
+            }, 350);
+        }
+
+
+        function goAccount() {
+
+            document.body.classList.add("page-exit");
+
+            setTimeout(() => {
+
+                window.location.href = "compte.html";
+
+            }, 350);
+        }
+
+    </script>
+
+</body>
+</html>

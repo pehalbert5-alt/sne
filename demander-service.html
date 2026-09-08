@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Demander nos services - SNE</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="demander-service.css">
+</head>
+
+<body>
+
+<header class="service-header">
+
+    <a href="index.html" class="logo-link">
+        <img src="images/sne.jpeg" alt="SNE" class="logo">
+    </a>
+
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="services.html">Nos services</a>
+        <a href="compte.html">Mon compte</a>
+    </nav>
+
+</header>
+
+
+<main class="request-container">
+
+    <section class="request-card">
+
+        <div class="request-title">
+
+            <span class="title-badge">SNE</span>
+
+            <h1>Demander nos services</h1>
+
+            <p>
+                Remplissez le formulaire et notre équipe
+                vous contactera pour confirmer votre demande.
+            </p>
+
+        </div>
+
+
+        <form id="serviceRequestForm">
+
+            <!-- SERVICE -->
+
+            <div class="form-group">
+
+                <label for="service">
+                    Service souhaité
+                </label>
+
+                <select id="service" required>
+
+                    <option value="">
+                        Choisir un service
+                    </option>
+
+                    <option value="Nettoyage de bureaux">
+                        🧹 Nettoyage de bureaux
+                    </option>
+
+                    <option value="Nettoyage de maisons">
+                        🏠 Nettoyage de maisons
+                    </option>
+
+                    <option value="Nettoyage de vitres">
+                        🪟 Nettoyage de vitres
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DATE -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="date">
+                        Date souhaitée
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- HEURE -->
+
+                <div class="form-group">
+
+                    <label for="time">
+                        Heure souhaitée
+                    </label>
+
+                    <input
+                        type="time"
+                        id="time"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- SURFACE -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="surface">
+                        Surface approximative
+                    </label>
+
+                    <input
+                        type="number"
+                        id="surface"
+                        min="1"
+                        placeholder="Ex : 120"
+                    >
+
+                    <small>
+                        m²
+                    </small>
+
+                </div>
+
+
+                <!-- PIÈCES -->
+
+                <div class="form-group">
+
+                    <label for="rooms">
+                        Nombre de pièces / bureaux
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rooms"
+                        min="1"
+                        placeholder="Ex : 5"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+
+            <div class="form-group">
+
+                <label for="message">
+                    Informations supplémentaires
+                </label>
+
+                <textarea
+                    id="message"
+                    rows="5"
+                    placeholder="Décrivez votre besoin..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- COMPTE -->
+
+            <div class="account-info">
+
+                <div>
+
+                    <strong>Votre compte SNE</strong>
+
+                    <p id="accountName">
+                        Chargement...
+                    </p>
+
+                    <p id="accountEmail">
+                        Chargement...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGE ERREUR -->
+
+            <div
+                id="formMessage"
+                class="form-message"
+            ></div>
+
+
+            <!-- BOUTON -->
+
+            <button
+                type="submit"
+                id="submitButton"
+            >
+                Envoyer ma demande
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        SNE — Service de nettoyage professionnel
+    </p>
+
+</footer>
+
+
+<script src="demander-service.js"></script>
+
+</body>
+</html>
