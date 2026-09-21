@@ -1,0 +1,17 @@
+{
+  "name": "sne-server",
+  "version": "1.0.0",
+  "description": "Serveur SNE Services de Nettoyage",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "google-auth-library": "^10.9.1"
+  }
+}

@@ -1,0 +1,24 @@
+# Bases SQLite locales
+sne.db
+sne.db-shm
+sne.db-wal
+server/sne.db
+server/sne.db-shm
+server/sne.db-wal
+
+# Sauvegardes
+*.backup-*
+*.backup_*
+*.bak
+*.backup
+backup-interface/
+
+# Dépendances Node
+server/node_modules/
+
+# Logs
+*.log
+
+# Système
+.DS_Store
+Thumbs.db
