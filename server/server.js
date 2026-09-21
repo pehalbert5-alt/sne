@@ -71,11 +71,9 @@ const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 ======================================== */
 
 app.use(cors({
-    origin: [
-        "http://localhost:8080",
-        "http://127.0.0.1:8080",
-        "https://pehalbert5-alt.github.io"
-    ]
+    origin: "https://pehalbert5-alt.github.io",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json({
