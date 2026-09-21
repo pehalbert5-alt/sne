@@ -231,6 +231,118 @@ footer {
         padding: 15px 4%;
     }
 }
+
+
+/* ========================================
+   COMPTE TRAVAILLEUR SNE
+======================================== */
+
+#workerSection {
+    width: 100%;
+    min-height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+}
+
+#workerSection .account-card {
+    width: 100%;
+    max-width: 480px;
+    padding: 35px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+#workerSection h2 {
+    margin: 0 0 12px;
+    font-size: 28px;
+    text-align: center;
+}
+
+#workerSection p {
+    margin: 0 0 30px;
+    text-align: center;
+    color: #666;
+}
+
+#workerSection label {
+    display: block;
+    margin: 18px 0 8px;
+    font-weight: 600;
+}
+
+#workerSection input {
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+    outline: none;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#workerSection input:focus {
+    border-color: #111;
+}
+
+#workerSection button {
+    width: 100%;
+    height: 52px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 10px;
+    background: #111;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#workerSection button:hover {
+    opacity: 0.9;
+}
+
+#workerMessage {
+    margin-top: 18px;
+    text-align: center;
+}
+
+
+/* FORMAT TELEPHONE TOGO */
+
+.phone-input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+.phone-input span {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    background: #f3f3f3;
+    font-weight: 600;
+    color: #222;
+}
+
+.phone-input input {
+    flex: 1;
+    height: 100% !important;
+    border: none !important;
+    border-radius: 0 !important;
+    outline: none;
+}
+
 </style>
 </head>
 
@@ -286,7 +398,63 @@ footer {
     </div>
 
 
-    <!-- PROFIL -->
+    
+<!-- COMPTE TRAVAILLEUR SNE -->
+<section id="workerSection" style="display:none;">
+
+    <div class="account-card">
+
+        <h2>Créer un compte travailleur SNE</h2>
+
+        <p>
+            Complétez les informations du travailleur.
+        </p>
+
+        <label for="workerName">
+            Nom du travailleur
+        </label>
+
+        <input
+            type="text"
+            id="workerName"
+            placeholder="Nom du travailleur"
+            autocomplete="name"
+        >
+
+        <label for="workerPhone">
+            Numéro de téléphone
+        </label>
+
+        <div class="phone-input">
+            <span>+228</span>
+
+            <input
+                type="tel"
+                id="workerPhone"
+                placeholder="90 00 00 00"
+                maxlength="11"
+                inputmode="numeric"
+                autocomplete="tel"
+            >
+        </div>
+
+        <button
+            type="button"
+            onclick="createWorkerAccount()"
+        >
+            Créer mon compte travailleur
+        </button>
+
+        <div
+            id="workerMessage"
+            class="message"
+        ></div>
+
+    </div>
+
+</section>
+
+<!-- PROFIL -->
 
     <div id="profileSection">
 
@@ -538,6 +706,22 @@ async function handleGoogleResponse(response) {
         }
 
 
+        const isWorkerAccess =
+            name
+                .replace(/\s+/g, " ")
+                .trim()
+                .toUpperCase() === "SNE ADJ";
+
+
+        if (isWorkerAccess) {
+
+            showWorkerSection(data.user);
+
+            return;
+
+        }
+
+
         localStorage.setItem(
             "sne_user",
             JSON.stringify(
@@ -565,6 +749,175 @@ async function handleGoogleResponse(response) {
     }
 
 }
+
+
+/*
+========================================
+ COMPTE TRAVAILLEUR SNE
+========================================
+*/
+
+let workerGoogleUser = null;
+
+
+function showWorkerSection(user) {
+
+    workerGoogleUser = user;
+
+    document.getElementById(
+        "loginSection"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "profileSection"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "workerSection"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "workerName"
+    ).value =
+        user.name || "";
+
+
+    document.getElementById(
+        "workerPhone"
+    ).value = "";
+
+
+    document.getElementById(
+        "workerMessage"
+    ).textContent = "";
+
+}
+
+
+function createWorkerAccount() {
+
+    const name =
+        document.getElementById(
+            "workerName"
+        ).value.trim();
+
+
+    const phone =
+        "+228" +
+        document.getElementById(
+            "workerPhone"
+        ).value.replace(/\D/g, "");
+
+
+    const message =
+        document.getElementById(
+            "workerMessage"
+        );
+
+
+    if (!name) {
+
+        message.textContent =
+            "Veuillez entrer le nom du travailleur.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    const localPhone =
+        document.getElementById(
+            "workerPhone"
+        ).value.replace(/\D/g, "");
+
+
+    if (localPhone.length !== 8) {
+
+        message.textContent =
+            "Veuillez entrer un numéro togolais de 8 chiffres.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    const worker = {
+
+        type: "worker",
+
+        name: name,
+
+        phone: phone,
+
+        googleId:
+            workerGoogleUser
+                ? workerGoogleUser.googleId
+                : null,
+
+        email:
+            workerGoogleUser
+                ? workerGoogleUser.email
+                : null,
+
+        picture:
+            workerGoogleUser
+                ? workerGoogleUser.picture
+                : null,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+        "sne_worker",
+        JSON.stringify(worker)
+    );
+
+
+    const whatsappNumber =
+        "22879988048";
+
+
+    const whatsappMessage =
+        "Bonjour SNE Services,%0A%0A" +
+        "Je souhaite créer un compte travailleur SNE.%0A%0A" +
+        "Nom du travailleur : " +
+        encodeURIComponent(name) +
+        "%0A" +
+        "Téléphone : " +
+        encodeURIComponent(phone) +
+        "%0A%0A" +
+        "Merci.";
+
+
+    const whatsappURL =
+        "https://wa.me/" +
+        whatsappNumber +
+        "?text=" +
+        whatsappMessage;
+
+
+    message.textContent =
+        "Compte préparé. Ouverture de WhatsApp...";
+
+    message.className =
+        "message success";
+
+
+    window.location.href =
+        whatsappURL;
+
+}
+
 
 
 /*
