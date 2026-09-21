@@ -73,7 +73,8 @@ const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 app.use(cors({
     origin: [
         "http://localhost:8080",
-        "http://127.0.0.1:8080"
+        "http://127.0.0.1:8080",
+        "https://pehalbert5-alt.github.io"
     ]
 }));
 
