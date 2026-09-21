@@ -22,3 +22,6 @@ server/node_modules/
 # Système
 .DS_Store
 Thumbs.db
+
+# Variables secretes
+server/.env
