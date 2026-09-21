@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SNE — Nos services</title>
     <link rel="stylesheet" href="style.css">
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    crossorigin=""/>
 </head>
 
 <body>
@@ -332,12 +337,7 @@
                     👤 Nom complet
                 </label>
 
-                <input
-                    type="text"
-                    id="requestName"
-                    name="name"
-                    placeholder="Votre nom complet"
-                    required>
+                <div id="requestName" class="account-info-display"></div>
 
             </div>
 
@@ -347,40 +347,7 @@
                     📧 Email
                 </label>
 
-                <input
-                    type="email"
-                    id="requestEmail"
-                    name="email"
-                    placeholder="votre@email.com"
-                    required>
-
-            </div>
-
-            <div class="service-field">
-
-                <label for="requestDate">
-                    📅 Date souhaitée
-                </label>
-
-                <input
-                    type="date"
-                    id="requestDate"
-                    name="date"
-                    required>
-
-            </div>
-
-            <div class="service-field">
-
-                <label for="requestTime">
-                    ⏰ Heure souhaitée
-                </label>
-
-                <input
-                    type="time"
-                    id="requestTime"
-                    name="time"
-                    required>
+                <div id="requestEmail" class="account-info-display"></div>
 
             </div>
 
@@ -390,31 +357,34 @@
                     📍 Lieu du nettoyage
                 </label>
 
-                <input
-                    type="text"
-                    id="requestLocation"
-                    name="location"
-                    placeholder="Adresse ou quartier"
-                    required>
+                <div class="location-box">
+
+    <div class="location-preview">
+        <img
+            src="images/localisation.jpeg"
+            alt="Localisation"
+            class="location-image">
+    </div>
+
+    <button type="button" id="activateLocation">
+        <img src="images/google-maps.svg"
+             alt="Google Maps"
+             class="maps-icon">
+        Activer ma localisation
+    </button>
+
+    <div id="locationStatus">
+        Localisation non activée
+    </div>
+
+    <input type="hidden" id="requestLocation">
+    <input type="hidden" id="latitude">
+    <input type="hidden" id="longitude">
+
+</div>
 
             </div>
-
-            <div class="service-field">
-
-                <label for="requestDetails">
-                    📝 Détails du nettoyage
-                </label>
-
-                <textarea
-                    id="requestDetails"
-                    name="details"
-                    rows="5"
-                    placeholder="Décrivez votre besoin..."
-                    required></textarea>
-
-            </div>
-
-            <button
+<button
                 type="submit"
                 class="submit-service-request">
                 Envoyer ma demande
@@ -425,11 +395,56 @@
                 class="request-message">
             </p>
 
+            <div
+                id="serviceRequestMap"
+                class="service-request-map"
+                style="display:none;">
+
+                <div class="map-title">
+                    📍 Localisation de votre demande
+                </div>
+
+                <div id="requestMap"></div>
+
+            </div>
+
+
         </form>
 
     </div>
 
 </div>
+
+</section>
+
+
+<section
+    id="serviceMapScreen"
+    class="service-map-screen"
+    style="display:none;">
+
+    <div class="service-map-header">
+
+        <div class="service-map-success">
+            ✅ Demande envoyée avec succès
+        </div>
+
+        <h1>📍 Localisation du nettoyage</h1>
+
+        <p>
+            Voici le lieu indiqué pour votre demande de service.
+        </p>
+
+    </div>
+
+    <div id="fullRequestMap"></div>
+
+    <button
+        type="button"
+        id="backToServices"
+        class="back-services-button">
+        ← Retour aux services
+    </button>
 
 </section>
 
@@ -471,45 +486,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const requestEmail =
         document.getElementById("requestEmail");
 
-    const requestDate =
-        document.getElementById("requestDate");
-
-    const requestTime =
-        document.getElementById("requestTime");
-
-    const requestLocation =
-        document.getElementById("requestLocation");
-
-    const requestDetails =
-        document.getElementById("requestDetails");
-
-
-    /* ==========================================
-       COMPTE SNE
-    ========================================== */
-
-    const currentUser =
-        JSON.parse(localStorage.getItem("sne_user")) || null;
-
-
-    /* ==========================================
-       DATE MINIMUM = AUJOURD'HUI
-    ========================================== */
-
-    const today = new Date();
-
-    const year =
-        today.getFullYear();
-
-    const month =
-        String(today.getMonth() + 1).padStart(2, "0");
-
-    const day =
-        String(today.getDate()).padStart(2, "0");
-
-    requestDate.min =
-        `${year}-${month}-${day}`;
-
 
     /* ==========================================
        OUVRIR LE FORMULAIRE
@@ -527,11 +503,11 @@ document.addEventListener("DOMContentLoaded", function () {
         if (currentUser) {
 
             if (currentUser.name) {
-                requestName.value = currentUser.name;
+                requestName.textContent = currentUser.name;
             }
 
             if (currentUser.email) {
-                requestEmail.value = currentUser.email;
+                requestEmail.textContent = currentUser.email;
             }
         }
 
@@ -628,21 +604,9 @@ document.addEventListener("DOMContentLoaded", function () {
              * dans message.
              */
 
-            const additionalDetails = [
-
-                "Nom : " +
-                    requestName.value,
-
-                "Email : " +
-                    requestEmail.value,
-
+            const additionalDetails =
                 "Lieu du nettoyage : " +
-                    requestLocation.value,
-
-                "Détails du nettoyage : " +
-                    requestDetails.value
-
-            ].join("\n");
+                requestLocation.value;
 
 
             const data = {
@@ -652,14 +616,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 service:
                     serviceInput.value,
-
-                date:
-                    requestDate.value,
-
-                time:
-                    requestTime.value,
-
-                surface:
+surface:
                     null,
 
                 rooms:
@@ -708,6 +665,112 @@ document.addEventListener("DOMContentLoaded", function () {
                 requestMessage.className =
                     "request-message success";
 
+                /* ==========================================
+                   REMPLACER NOS SERVICES PAR LA CARTE
+                ========================================== */
+
+                const servicesSection =
+                    document.querySelector(".services-section");
+
+                const serviceMapScreen =
+                    document.getElementById("serviceMapScreen");
+
+                const fullRequestMap =
+                    document.getElementById("fullRequestMap");
+
+                const latitude =
+                    parseFloat(latitudeInput.value);
+
+                const longitude =
+                    parseFloat(longitudeInput.value);
+
+                if (
+                    servicesSection &&
+                    serviceMapScreen &&
+                    fullRequestMap
+                ) {
+
+                    /* DEBUG ÉCRAN CARTE */
+                    console.log("🟢 DEMANDE ENVOYÉE");
+                    console.log("🟢 servicesSection =", servicesSection);
+                    console.log("🟢 serviceMapScreen =", serviceMapScreen);
+                    console.log("🟢 fullRequestMap =", fullRequestMap);
+                    console.log("🟢 latitude =", latitude);
+                    console.log("🟢 longitude =", longitude);
+
+                    /* Cacher complètement Nos services */
+                    servicesSection.style.display = "none";
+
+                    console.log(
+                        "🟢 Nos services est maintenant caché"
+                    );
+
+                    /* Afficher l'écran carte */
+                    serviceMapScreen.style.display = "block";
+
+                    console.log(
+                        "✅ Écran Nos services remplacé par la carte."
+                    );
+
+                    console.log(
+                        "📍 GPS :",
+                        latitude,
+                        longitude
+                    );
+
+                    /* Remonter en haut */
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
+                    if (typeof L !== "undefined") {
+
+                        fullRequestMap.innerHTML = "";
+
+                        const fullMap =
+                            L.map("fullRequestMap").setView(
+                                [latitude, longitude],
+                                16
+                            );
+
+                        L.tileLayer(
+                            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                            {
+                                maxZoom: 19,
+                                attribution:
+                                    '&copy; OpenStreetMap contributors'
+                            }
+                        ).addTo(fullMap);
+
+                        L.marker(
+                            [latitude, longitude]
+                        )
+                        .addTo(fullMap)
+                        .bindPopup(
+                            "📍 Lieu du nettoyage SNE"
+                        )
+                        .openPopup();
+
+                        setTimeout(function () {
+                            fullMap.invalidateSize();
+                        }, 300);
+
+                    } else {
+
+                        console.error(
+                            "❌ Leaflet n'est pas chargé."
+                        );
+                    }
+
+                } else {
+
+                    console.warn(
+                        "⚠️ Impossible d'afficher la carte : GPS ou écran carte manquant."
+                    );
+                }
+
+
 
                 /*
                  * On conserve le service sélectionné
@@ -744,11 +807,92 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 });
+
+
+// =====================================================
 </script>
 
+<script>
+// SNE - LOCALISATION GPS RÉELLE
+// =====================================================
+
+const activateLocation = document.getElementById("activateLocation");
+const locationStatus = document.getElementById("locationStatus");
+const requestLocation = document.getElementById("requestLocation");
+const latitudeInput = document.getElementById("latitude");
+const longitudeInput = document.getElementById("longitude");
+
+if (activateLocation) {
+
+    activateLocation.addEventListener("click", function () {
+
+        if (!navigator.geolocation) {
+            locationStatus.textContent =
+                "❌ La localisation n'est pas disponible.";
+            return;
+        }
+
+        locationStatus.textContent =
+            "📍 Recherche de votre localisation réelle...";
+
+        activateLocation.disabled = true;
+
+        navigator.geolocation.getCurrentPosition(
+
+            function (position) {
+
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                latitudeInput.value = latitude;
+                longitudeInput.value = longitude;
+
+                requestLocation.value =
+                    latitude + "," + longitude;
+
+                locationStatus.textContent =
+                    "✅ Localisation activée";
+
+                activateLocation.innerHTML =
+                    '<img src="images/google-maps.svg" alt="Google Maps" class="maps-icon"> Localisation activée';
+
+                activateLocation.disabled = false;
+
+            },
+
+            function (error) {
+
+                activateLocation.disabled = false;
+
+                if (error.code === 1) {
+                    locationStatus.textContent =
+                        "❌ Vous devez autoriser la localisation dans Firefox.";
+                } else if (error.code === 2) {
+                    locationStatus.textContent =
+                        "❌ Position impossible à déterminer.";
+                } else if (error.code === 3) {
+                    locationStatus.textContent =
+                        "❌ La recherche a expiré. Réessayez.";
+                } else {
+                    locationStatus.textContent =
+                        "❌ Impossible d'obtenir votre localisation.";
+                }
+
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 20000,
+                maximumAge: 0
+            }
+        );
+    });
+}
 
 
-<!-- SNE_SERVICE_REQUEST_SCRIPT -->
+
+
+</script>
 
 <script>
 
@@ -783,18 +927,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const requestEmail =
         document.getElementById("requestEmail");
-
-    const requestDate =
-        document.getElementById("requestDate");
-
-    const requestTime =
-        document.getElementById("requestTime");
-
-    const requestLocation =
+const requestLocation =
         document.getElementById("requestLocation");
 
-    const requestDetails =
-        document.getElementById("requestDetails");
 
 
     // ========================================================
@@ -844,11 +979,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const today =
         new Date().toISOString().split("T")[0];
-
-    requestDate.min = today;
-
-
-    // ========================================================
+// ========================================================
     // AFFICHER LES 18 SERVICES
     // ========================================================
 
@@ -909,14 +1040,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         if (currentUser.name) {
 
-                            requestName.value =
+                            requestName.textContent =
                                 currentUser.name;
 
                         }
 
                         if (currentUser.email) {
 
-                            requestEmail.value =
+                            requestEmail.textContent =
                                 currentUser.email;
 
                         }
@@ -1017,21 +1148,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             // Informations supplémentaires
-            const additionalDetails = [
-
-                "Nom : " +
-                requestName.value,
-
-                "Email : " +
-                requestEmail.value,
-
+            const additionalDetails =
                 "Lieu du nettoyage : " +
-                requestLocation.value,
-
-                "Détails : " +
-                requestDetails.value
-
-            ].join("\n");
+                requestLocation.value;
 
 
             const data = {
@@ -1041,14 +1160,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 service:
                     serviceInput.value,
-
-                date:
-                    requestDate.value,
-
-                time:
-                    requestTime.value,
-
-                surface:
+surface:
                     null,
 
                 rooms:
@@ -1136,5 +1248,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </script>
 
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin="">
+</script>
 </body>
 </html>
+
+
+
+
