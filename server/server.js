@@ -144,11 +144,16 @@ app.post("/api/auth/google", async (req, res) => {
 
         }
 
+        console.log("🔐 Vérification Google...");
+        console.log("Google Client ID configuré :", GOOGLE_CLIENT_ID);
+
         const ticket =
             await googleClient.verifyIdToken({
                 idToken: credential,
                 audience: GOOGLE_CLIENT_ID
             });
+
+        console.log("✅ Token Google vérifié");
 
         const payload =
             ticket.getPayload();
